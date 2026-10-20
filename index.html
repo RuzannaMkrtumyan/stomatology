@@ -1017,12 +1017,302 @@ textarea:focus {
     transform: none !important;
   }
 }
+
+/* ===== Premium Flow Add-ons: Loader, Parallax, Glow, Counters ===== */
+
+body.loading {
+  overflow: hidden;
+}
+
+/* ---------- 1. Page Loader ---------- */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #ffffff, #f0fdfa, #ecfeff);
+  transition:
+    opacity 0.7s ease,
+    visibility 0.7s ease;
+}
+
+body.loaded .page-loader {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-inner {
+  text-align: center;
+  color: var(--primary-dark);
+}
+
+.loader-tooth {
+  font-size: 58px;
+  line-height: 1;
+  animation: loaderToothBounce 1.2s ease-in-out infinite;
+}
+
+.loader-inner p {
+  margin-top: 16px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.3px;
+}
+
+.loader-bar {
+  width: 190px;
+  height: 7px;
+  margin: 20px auto 0;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.loader-bar span {
+  display: block;
+  width: 42%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--primary), #38bdf8);
+  animation: loaderSlide 1.25s ease-in-out infinite;
+}
+
+@keyframes loaderToothBounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.05);
+  }
+}
+
+@keyframes loaderSlide {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(360%);
+  }
+}
+
+/* ---------- 2. Hero Parallax ---------- */
+.hero-parallax {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(62px);
+  opacity: 0.55;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.orb-1 {
+  width: 360px;
+  height: 360px;
+  top: -90px;
+  left: -70px;
+  background: radial-gradient(circle at 30% 30%, rgba(20, 184, 166, 0.55), transparent 68%);
+}
+
+.orb-2 {
+  width: 320px;
+  height: 320px;
+  bottom: -110px;
+  right: -60px;
+  background: radial-gradient(circle at 60% 40%, rgba(14, 165, 233, 0.45), transparent 68%);
+}
+
+.orb-3 {
+  width: 230px;
+  height: 230px;
+  top: 42%;
+  left: 56%;
+  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.24), transparent 68%);
+}
+
+.hero-grid-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(15, 118, 110, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 118, 110, 0.07) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(circle at center, black 35%, transparent 78%);
+  mask-image: radial-gradient(circle at center, black 35%, transparent 78%);
+}
+
+.hero-grid > div.parallax-ready {
+  animation: none;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* ---------- 3. Mouse Follow Glow on Cards ---------- */
+.card {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    240px circle at var(--mouse-x) var(--mouse-y),
+    rgba(20, 184, 166, 0.16),
+    transparent 62%
+  );
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.card::before {
+  z-index: 2;
+}
+
+/* ---------- 4. Animated Statistics ---------- */
+.stats-section {
+  background: linear-gradient(135deg, #ffffff, #f0fdfa, #ecfeff);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 32px 22px;
+}
+
+.stat-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: inline-block;
+  animation: statIconFloat 3.2s ease-in-out infinite;
+}
+
+.stat-card:nth-child(2) .stat-icon {
+  animation-delay: 0.25s;
+}
+
+.stat-card:nth-child(3) .stat-icon {
+  animation-delay: 0.5s;
+}
+
+.stat-card:nth-child(4) .stat-icon {
+  animation-delay: 0.75s;
+}
+
+.stat-number {
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--primary);
+  margin-bottom: 10px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1px;
+}
+
+.stat-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 0;
+}
+
+@keyframes statIconFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@media (max-width: 992px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-number {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 560px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-number {
+    font-size: 34px;
+  }
+
+  .loader-tooth {
+    font-size: 48px;
+  }
+
+  .loader-bar {
+    width: 160px;
+  }
+}
+
+/* Reduced motion support for new add-ons */
+@media (prefers-reduced-motion: reduce) {
+  .loader-tooth,
+  .loader-bar span,
+  .stat-icon {
+    animation: none !important;
+  }
+
+  .hero-grid > div.parallax-ready {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+    
   </style>
 </head>
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
   
-<body>
+<body class="loading">
+  <!-- Page Loader -->
+<div class="page-loader" id="pageLoader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-tooth">🦷</div>
+    <div class="loader-bar">
+      <span></span>
+    </div>
+    <p>BrightSmile Stomatology Clinic</p>
+  </div>
+</div>
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
   <!-- Header -->
@@ -1039,12 +1329,20 @@ textarea:focus {
         <li><a href="#doctors">Doctors</a></li>
         <li><a href="#appointment">Appointment</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li><a href="#stats">Stats</a></li>
       </ul>
     </div>
   </header>
 
   <!-- Hero Section -->
   <section class="hero" id="home">
+      <!-- Hero Parallax Layers -->
+  <div class="hero-parallax" aria-hidden="true">
+    <span class="hero-orb orb-1"></span>
+    <span class="hero-orb orb-2"></span>
+    <span class="hero-orb orb-3"></span>
+    <span class="hero-grid-lines"></span>
+  </div>
     <div class="container hero-grid">
       <div>
         <h1>Advanced Stomatology & Dental Care for a Healthy Smile</h1>
@@ -1072,6 +1370,44 @@ textarea:focus {
       </div>
     </div>
   </section>
+
+  <!-- Statistics Section -->
+<section class="section stats-section" id="stats">
+  <div class="container">
+    <div class="section-title">
+      <h2>Trusted Dental Care Results</h2>
+      <p>
+        Numbers that reflect our commitment to patient comfort, oral health, and professional stomatology care.
+      </p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="card stat-card">
+        <div class="stat-icon">🦷</div>
+        <div class="stat-number" data-target="15" data-suffix="+">0</div>
+        <h3>Years of Experience</h3>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-icon">😊</div>
+        <div class="stat-number" data-target="12000" data-suffix="+">0</div>
+        <h3>Happy Patients</h3>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-icon">👨‍⚕️</div>
+        <div class="stat-number" data-target="25" data-suffix="+">0</div>
+        <h3>Specialist Dentists</h3>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-number" data-target="98" data-suffix="%">0</div>
+        <h3>Patient Satisfaction</h3>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- Services Section -->
   <section class="section" id="services">
@@ -1550,6 +1886,189 @@ textarea:focus {
 
     this.reset();
   });
+})();
+</script>
+
+<script>
+(function () {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* =====================================================
+     1. PAGE LOADER
+  ===================================================== */
+  const pageLoader = document.getElementById("pageLoader");
+
+  function hidePageLoader() {
+    document.body.classList.remove("loading");
+    document.body.classList.add("loaded");
+
+    if (pageLoader) {
+      setTimeout(() => {
+        pageLoader.remove();
+      }, 850);
+    }
+  }
+
+  window.addEventListener("load", hidePageLoader);
+
+  // Fallback in case load event is slow
+  setTimeout(hidePageLoader, 2600);
+
+  /* =====================================================
+     2. HERO PARALLAX EFFECT
+  ===================================================== */
+  const heroSection = document.getElementById("home");
+
+  if (heroSection && !prefersReducedMotion) {
+    const heroOrbs = heroSection.querySelectorAll(".hero-orb");
+    const heroBlocks = heroSection.querySelectorAll(".hero-grid > div");
+
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    let scrollOffset = 0;
+
+    const orbSpeeds = [26, 18, 12];
+
+    function handleMouseMove(event) {
+      const rect = heroSection.getBoundingClientRect();
+
+      // Only update when hero is visible
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+      targetMouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+      targetMouseY = (event.clientY / window.innerHeight - 0.5) * 2;
+    }
+
+    function handleScroll() {
+      scrollOffset = window.scrollY || document.documentElement.scrollTop || 0;
+    }
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    function animateHeroParallax() {
+      mouseX += (targetMouseX - mouseX) * 0.075;
+      mouseY += (targetMouseY - mouseY) * 0.075;
+
+      const limitedScroll = Math.min(scrollOffset, 760);
+
+      heroOrbs.forEach((orb, index) => {
+        const speed = orbSpeeds[index] || 14;
+        const scrollDrift = limitedScroll * (0.05 + index * 0.018);
+
+        orb.style.transform =
+          `translate3d(${mouseX * speed}px, ${mouseY * speed - scrollDrift}px, 0)`;
+      });
+
+      heroBlocks.forEach((block, index) => {
+        if (!block.classList.contains("parallax-ready")) return;
+
+        const depth = index === 0 ? 7 : 11;
+        const scrollLift = limitedScroll * 0.025;
+
+        block.style.transform =
+          `translate3d(${mouseX * depth}px, ${mouseY * depth - scrollLift}px, 0)`;
+      });
+
+      requestAnimationFrame(animateHeroParallax);
+    }
+
+    animateHeroParallax();
+
+    // Enable block parallax after hero entrance animation finishes
+    setTimeout(() => {
+      heroBlocks.forEach((block) => {
+        block.classList.add("parallax-ready");
+      });
+    }, 950);
+  }
+
+  /* =====================================================
+     3. MOUSE FOLLOW GLOW ON CARDS
+  ===================================================== */
+  const glowCards = document.querySelectorAll(".card");
+
+  glowCards.forEach((card) => {
+    card.addEventListener("mousemove", (event) => {
+      const rect = card.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.setProperty("--mouse-x", "50%");
+      card.style.setProperty("--mouse-y", "50%");
+    });
+  });
+
+  /* =====================================================
+     4. ANIMATED STATISTICS COUNTERS
+  ===================================================== */
+  function formatNumber(value) {
+    return Number(value).toLocaleString();
+  }
+
+  function runCounter(element) {
+    const target = parseFloat(element.dataset.target || "0");
+    const suffix = element.dataset.suffix || "";
+    const prefix = element.dataset.prefix || "";
+    const duration = parseInt(element.dataset.duration || "1800", 10);
+
+    if (prefersReducedMotion) {
+      element.textContent = prefix + formatNumber(target) + suffix;
+      return;
+    }
+
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Ease-out cubic for smooth counting
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const currentValue = Math.floor(eased * target);
+
+      element.textContent = prefix + formatNumber(currentValue) + suffix;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        element.textContent = prefix + formatNumber(target) + suffix;
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  const statNumbers = document.querySelectorAll(".stat-number[data-target]");
+
+  if ("IntersectionObserver" in window) {
+    const counterObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            runCounter(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.35
+      }
+    );
+
+    statNumbers.forEach((stat) => {
+      counterObserver.observe(stat);
+    });
+  } else {
+    statNumbers.forEach(runCounter);
+  }
 })();
 </script>
 
