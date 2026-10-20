@@ -527,9 +527,503 @@
         grid-template-columns: 1fr;
       }
     }
+    /* ===== Smooth Flow Upgrade ===== */
+
+html {
+  scroll-padding-top: 90px;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Scroll progress bar */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--primary), #38bdf8);
+  z-index: 2000;
+  box-shadow: 0 0 14px rgba(20, 184, 166, 0.45);
+  transition: width 0.12s linear;
+}
+
+/* Reveal animation base */
+.js .reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0) scale(0.985);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero smooth background + floating blobs */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--light), #ecfeff, #f0f9ff);
+  background-size: 200% 200%;
+  animation: gradientMove 16s ease infinite;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero::before {
+  top: -120px;
+  left: -100px;
+  background: radial-gradient(circle at 30% 30%, rgba(20, 184, 166, 0.42), transparent 65%);
+  animation: blobFloat 15s ease-in-out infinite alternate;
+}
+
+.hero::after {
+  bottom: -140px;
+  right: -110px;
+  background: radial-gradient(circle at 70% 30%, rgba(14, 165, 233, 0.30), transparent 65%);
+  animation: blobFloat 19s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes blobFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(28px, -22px, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-22px, 26px, 0) scale(0.95);
+  }
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-grid > div {
+  animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-grid > div:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+/* Hero card smooth hover */
+.hero-card {
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease;
+}
+
+.hero-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 55px rgba(15, 118, 110, 0.16);
+}
+
+.hero-card li {
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+  border-radius: 10px;
+}
+
+.hero-card li:hover {
+  background: var(--light);
+  transform: translateX(4px);
+}
+
+/* Section title animated underline */
+.section-title h2 {
+  position: relative;
+  display: inline-block;
+}
+
+.section-title h2::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 4px;
+  margin: 14px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  animation: underlinePulse 3s ease-in-out infinite;
+}
+
+@keyframes underlinePulse {
+  0%, 100% {
+    width: 72px;
+    opacity: 0.85;
+  }
+  50% {
+    width: 128px;
+    opacity: 1;
+  }
+}
+
+/* Cards smooth hover + top accent line */
+.card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.015);
+  box-shadow: 0 20px 50px rgba(15, 118, 110, 0.16);
+  border-color: rgba(20, 184, 166, 0.28);
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.icon {
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.4s ease;
+}
+
+.card:hover .icon {
+  transform: rotate(-10deg) scale(1.1);
+  background: #ccfbf1;
+}
+
+.doctor-photo {
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.doctor-card:hover .doctor-photo {
+  transform: scale(1.06);
+  box-shadow: 0 12px 28px rgba(15, 118, 110, 0.18);
+}
+
+/* About image animated gradient */
+.about-image {
+  background: linear-gradient(135deg, #ccfbf1, #cffafe, #e0f2fe, #ccfbf1);
+  background-size: 300% 300%;
+  animation: gradientMove 10s ease infinite;
+}
+
+/* Buttons smooth shine + press effect */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.34), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.btn:hover::after {
+  left: 140%;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 12px 24px rgba(15, 118, 110, 0.25);
+}
+
+.btn-outline:hover {
+  box-shadow: 0 12px 24px rgba(15, 118, 110, 0.12);
+}
+
+/* Navigation animated underline */
+.nav-links a {
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  border-radius: 999px;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* Inputs smoother focus */
+input,
+select,
+textarea {
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  transform: translateY(-1px);
+}
+
+/* Appointment info smoother gradient + hover items */
+.appointment-info {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--primary), #0d9488 55%, #0ea5e9);
+}
+
+.appointment-info::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  right: -70px;
+  top: -70px;
+  pointer-events: none;
+}
+
+.info-item {
+  transition: transform 0.25s ease;
+}
+
+.info-item:hover {
+  transform: translateX(4px);
+}
+
+/* Footer smooth hover */
+.footer-col {
+  transition: transform 0.35s ease;
+}
+
+.footer-col:hover {
+  transform: translateY(-4px);
+}
+
+.footer-col a {
+  display: inline-block;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.footer-col a:hover {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
+/* WhatsApp pulse */
+.whatsapp-float {
+  animation: waPulse 2.4s infinite;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.08) rotate(6deg);
+}
+
+@keyframes waPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 18px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.35s,
+    background 0.3s ease;
+  z-index: 999;
+  box-shadow: 0 10px 24px rgba(15, 118, 110, 0.25);
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.back-to-top:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 96px;
+  max-width: 340px;
+  background: #0f172a;
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.35s;
+  z-index: 1200;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .toast {
+    left: 16px;
+    right: 16px;
+    bottom: 88px;
+    max-width: none;
+  }
+
+  .back-to-top {
+    left: 16px;
+    bottom: 16px;
+  }
+
+  .whatsapp-float {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+/* Accessibility: respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
   </style>
 </head>
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+  
 <body>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
   <!-- Header -->
   <header>
@@ -896,30 +1390,168 @@
   </a>
 
   <script>
-    function toggleMenu() {
-      document.getElementById("navLinks").classList.toggle("active");
+(function () {
+  const root = document.documentElement;
+  root.classList.add("js");
+
+  // Mobile menu toggle
+  window.toggleMenu = function () {
+    document.getElementById("navLinks")?.classList.toggle("active");
+  };
+
+  // Elements to animate on scroll
+  const revealTargets = document.querySelectorAll(
+    ".section-title, .card, .about-text, .about-image, .appointment-info, form, .footer-col"
+  );
+
+  revealTargets.forEach((el) => {
+    el.classList.add("reveal");
+  });
+
+  // Stagger animation for grid children
+  document
+    .querySelectorAll(".services-grid, .doctors-grid, .reviews-grid, .contact-grid, .footer-grid")
+    .forEach((grid) => {
+      Array.from(grid.children).forEach((child, index) => {
+        child.style.transitionDelay = `${index * 85}ms`;
+      });
+    });
+
+  // Intersection Observer for reveal animations
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+
+            // Remove delay after animation so hover effects stay smooth
+            setTimeout(() => {
+              entry.target.style.transitionDelay = "0ms";
+            }, 900);
+
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -60px 0px"
+      }
+    );
+
+    revealTargets.forEach((el) => observer.observe(el));
+  } else {
+    revealTargets.forEach((el) => el.classList.add("is-visible"));
+  }
+
+  // Scroll progress + back to top + active nav link
+  const progress = document.getElementById("scrollProgress");
+  const backToTop = document.getElementById("backToTop");
+  const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+  const sections = navLinks
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+
+  let ticking = false;
+
+  function updateOnScroll() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
+    if (progress) {
+      progress.style.width = `${scrolled}%`;
     }
 
-    document.getElementById("appointmentForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+    if (backToTop) {
+      backToTop.classList.toggle("show", scrollTop > 520);
+    }
 
-      const name = document.getElementById("name").value;
-      const phone = document.getElementById("phone").value;
-      const service = document.getElementById("service").value;
-      const date = document.getElementById("date").value;
-      const message = document.getElementById("message").value;
+    // Active navigation link
+    let currentId = sections[0]?.id || "";
+    const offset = 130;
 
-      alert(
-        "Thank you, " + name + "!\n\n" +
-        "Your appointment request has been received.\n" +
-        "Service: " + service + "\n" +
-        "Date: " + date + "\n\n" +
-        "We will contact you soon at " + phone + "."
-      );
-
-      this.reset();
+    sections.forEach((section) => {
+      if (scrollTop >= section.offsetTop - offset) {
+        currentId = section.id;
+      }
     });
-  </script>
+
+    navLinks.forEach((link) => {
+      link.classList.toggle("active", link.getAttribute("href") === `#${currentId}`);
+    });
+
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateOnScroll);
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
+
+  updateOnScroll();
+
+  // Back to top click
+  backToTop?.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+  // Close mobile menu when clicking a link
+  document.querySelectorAll(".nav-links a").forEach((link) => {
+    link.addEventListener("click", () => {
+      document.getElementById("navLinks")?.classList.remove("active");
+    });
+  });
+
+  // Toast notification
+  function showToast(message) {
+    let toast = document.getElementById("toast");
+
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "toast";
+      toast.className = "toast";
+      document.body.appendChild(toast);
+    }
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 4200);
+  }
+
+  // Appointment form smoother submission
+  const form = document.getElementById("appointmentForm");
+
+  form?.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name")?.value.trim() || "there";
+    const phone = document.getElementById("phone")?.value.trim() || "";
+    const service = document.getElementById("service")?.value || "appointment";
+    const date = document.getElementById("date")?.value || "soon";
+
+    const contactNote = phone ? ` We’ll contact you at ${phone}.` : "";
+
+    showToast(`Thanks ${name}! Your ${service} request for ${date} was received.${contactNote}`);
+
+    this.reset();
+  });
+})();
+</script>
 
 </body>
 </html>
